@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout - Demo Store</title>
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Meta Pixel Code -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '45202529883535');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=45202529883535&ev=PageView&noscript=1"
+  /></noscript>
+  <!-- End Meta Pixel Code -->
+</head>
+<body>
+  <header>
+    <h1><a href="index.html">Demo Store</a></h1>
+    <nav><a href="cart.html" id="cart-link">Cart (<span id="cart-count">0</span>)</a></nav>
+  </header>
+
+  <main class="checkout-page">
+    <h2>Checkout</h2>
+    <form id="checkout-form">
+      <div class="form-group">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" name="name" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+      <div class="form-group">
+        <label for="address">Shipping Address</label>
+        <input type="text" id="address" name="address" required>
+      </div>
+      <div class="form-group">
+        <label for="card">Card Number (fake)</label>
+        <input type="text" id="card" name="card" placeholder="4242 4242 4242 4242" required>
+      </div>
+      <div class="order-summary">
+        <h3>Order Summary</h3>
+        <div id="checkout-items"></div>
+        <p class="total">Total: $<span id="checkout-total">0.00</span></p>
+      </div>
+      <button type="submit" class="btn btn-primary">Place Order</button>
+    </form>
+  </main>
+
+  <script src="js/app.js"></script>
+  <script>
+    renderCheckoutSummary();
+    // --- Pixel: InitiateCheckout on page load ---
+    (function() {
+      var cart = JSON.parse(localStorage.getItem('demo_store_cart') || '[]');
+      var ids = cart.map(function(i) { return i.id; });
+      var total = cart.reduce(function(s, i) { return s + i.price * i.qty; }, 0);
+      fbq('track', 'InitiateCheckout', {
+        content_ids: ids,
+        content_type: 'product',
+        num_items: cart.reduce(function(s, i) { return s + i.qty; }, 0),
+        value: total,
+        currency: 'USD'
+      });
+    })();
+  </script>
+</body>
+</html>

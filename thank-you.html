@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Complete - Demo Store</title>
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Meta Pixel Code -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '45202529883535');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=45202529883535&ev=PageView&noscript=1"
+  /></noscript>
+  <!-- End Meta Pixel Code -->
+</head>
+<body>
+  <header>
+    <h1><a href="index.html">Demo Store</a></h1>
+    <nav><a href="cart.html" id="cart-link">Cart (<span id="cart-count">0</span>)</a></nav>
+  </header>
+
+  <main class="thankyou-page">
+    <div class="success-box">
+      <h2>Purchase Complete!</h2>
+      <p>Thank you for your order. Your confirmation number is:</p>
+      <p class="order-id" id="order-id"></p>
+      <p>A confirmation email will be sent shortly.</p>
+      <a href="index.html" class="btn">Continue Shopping</a>
+    </div>
+  </main>
+
+  <script src="js/app.js"></script>
+  <script>
+    // Show order ID from URL params
+    var params = new URLSearchParams(window.location.search);
+    document.getElementById('order-id').textContent = params.get('order') || 'ORD-' + Date.now();
+
+    // --- Pixel: Purchase event ---
+    var orderValue = parseFloat(params.get('value') || '0');
+    var orderIds = (params.get('ids') || '').split(',').filter(Boolean);
+    var numItems = parseInt(params.get('num_items') || '0', 10);
+    fbq('track', 'Purchase', {
+      content_ids: orderIds,
+      content_type: 'product',
+      num_items: numItems,
+      value: orderValue,
+      currency: 'USD'
+    });
+  </script>
+</body>
+</html>
