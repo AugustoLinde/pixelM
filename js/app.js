@@ -91,7 +91,7 @@ if (form) {
     var numItems = cart.reduce(function(s, i) { return s + i.qty; }, 0);
     var data = { name: form.name.value, email: form.email.value, address: form.address.value, items: cart };
 
-    var SERVER_URL = window.DEMO_SERVER_URL || 'http://localhost:3000';
+    var SERVER_URL = window.DEMO_SERVER_URL || 'https://pixelM.onrender.com/';
     fetch(SERVER_URL + '/api/checkout', {
       method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data)
     })
